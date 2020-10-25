@@ -6,6 +6,8 @@ const mongoose = require('mongoose');
 const path = require('path');
 const methodOverride = require('method-override')
 
+const Route = require('./models/route');
+
 mongoose.connect('mongodb://localhost:27017/TheCrag', { 
     useNewUrlParser: true, 
     useUnifiedTopology: true,
@@ -25,7 +27,11 @@ app.use(methodOverride('_method'))
 // ROUTING
 
 app.get('/', (req, res) => {
-    res.render('landing');
+    const routes = Route.find({})
+        .then(data => {
+            res.render('landing', { data });
+        })
+        .catch(err => console.log('getAllRoutes err:', err));
 });
 
 
