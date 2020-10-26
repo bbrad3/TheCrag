@@ -17,8 +17,8 @@ mongoose.connection.once('open', () => {
 function getCityLocations() {
     const cityLocations = [];
 
-    for(let i = 0; i < 1; i++){
-        const rand1000 = Math.floor(Math.random() * 1001);
+    for(let i = 0; i < 100; i++){
+        const rand1000 = Math.floor(Math.random() * 1000);
         const city = cities[rand1000]
         const location = {city: city.city, state: city.state, latitude: city.latitude, longitude: city.longitude};
         cityLocations.push(location);
@@ -72,10 +72,14 @@ async function makeModel(newRoute){
     try {
         const route = new Route(newRoute);
         await route.save();
-        console.log('WE DID IT...CHECK TheCrag db');
     } catch (error) {
         console.log(error);
     }
 }
 
-getCityLocations();
+const seedDB = async () => {
+    await Route.deleteMany({}); // Delete routes in db
+    getCityLocations(); // Start SEED with new routes!
+}
+
+seedDB();

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Route Details</title>
+</head>
+<body>
+    <nav>
+        <a href="/">Home</a>
+        <a href="/routes">All Routes</a>
+    </nav>
+    <h1><%= route.title %></h1>
+    <h2><%= route.crag %></h2>
+    <h3>Rating: <%= route.rating %></h3>
+    <nav>
+        <button><a href="/routes/<%=route._id%>/edit">Edit Route</a></button>
+    </nav>
+    <form action="/routes/<%=route._id%>?_method=DELETE" method="POST">
+        <button>Delete Route</button>
+    </form>
+</body>
+</html>

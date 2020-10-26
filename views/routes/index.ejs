@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Routes</title>
+</head>
+<body>
+    <nav>
+        <a href="/">Home</a>
+    </nav>
+    <h1>All Routes</h1>
+    <nav>
+        <a href="/routes/new">Add a New Route</a>
+    </nav>
+    <ul>
+        <% for(let route of routes){ %>
+            <li><a href="routes/<%= route._id %>"><%= route.title %> - <%= route.crag %></a></li>
+        <% } %>
+    </ul>
+</body>
+</html>

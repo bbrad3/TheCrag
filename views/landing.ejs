@@ -6,10 +6,13 @@
     <title>The Crag</title>
 </head>
 <body>
+    <nav>
+        <a href="/routes">View All Routes</a>
+    </nav>
     <h1>Let's Go Cragging!</h1>
     <ul>
         <% for(let route of data){ %>
-            <li><%= route.title %></li>
+            <li><%= route.title %> - <%= route.location.state %></li>
         <% } %>
     </ul>
 </body>

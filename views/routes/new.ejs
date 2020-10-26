@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Route</title>
+</head>
+<body>
+    <nav>
+        <a href="/">Home</a>
+        <a href="/routes">Back to All Routes</a>
+    </nav>
+    <h1>Create a New Route!</h1>
+    <form action="/routes" method="POST">
+        <div>
+            <label for="title">Title:</label>
+            <input type="text" id="title" name="route[title]">
+        </div>
+        <div>
+            <label for="crag">Crag:</label>
+            <input type="text" id="crag" name="route[crag]">
+        </div>
+        <button type="submit">Submit New Route</button>
+    </form>
+    
+</body>
+</html>

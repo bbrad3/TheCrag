@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Route</title>
+</head>
+<body>
+    <nav>
+        <a href="/routes/<%=route._id%>">Go Back</a>
+        <a href="/routes">All Routes</a>
+    </nav>
+    <h1>Edit <%= route.title %> Route</h1>
+    <form action="/routes/<%=route._id%>?_method=PUT" method="POST">
+        <div>
+            <label for="title">Title:</label>
+            <input type="text" id="title" name="route[title]" value="<%=route.title%>">
+        </div>
+        <div>
+            <label for="crag">Crag:</label>
+            <input type="text" id="crag" name="route[crag]" value="<%=route.crag%>">
+        </div>
+        <button type="submit">Update Route</button>
+    </form>
+</body>
+</html>
