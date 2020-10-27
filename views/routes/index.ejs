@@ -1,22 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>All Routes</title>
-</head>
-<body>
-    <nav>
-        <a href="/">Home</a>
-    </nav>
+<% layout('layouts/boilerplate') %>
+
     <h1>All Routes</h1>
     <nav>
         <a href="/routes/new">Add a New Route</a>
     </nav>
-    <ul>
-        <% for(let route of routes){ %>
-            <li><a href="routes/<%= route._id %>"><%= route.title %> - <%= route.crag %></a></li>
-        <% } %>
-    </ul>
-</body>
-</html>
+
+    <% for(let route of routes){ %>
+        <div class="card mb-2">
+            <a href="routes/<%= route._id %>">
+                <h5 class="card-title"><%= route.title %> - <%= route.crag %></h5>
+            </a>
+            <div>
+                <span class="card-text">Rating: <%= route.rating %></span>
+                <span class="card-text text-muted"><%=route.location.city%>, <%=route.location.state%></span>
+            </div>
+        </div>
+    <% } %>

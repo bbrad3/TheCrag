@@ -17,13 +17,14 @@ mongoose.connection.once('open', () => {
 function getCityLocations() {
     const cityLocations = [];
 
-    for(let i = 0; i < 100; i++){
-        const rand1000 = Math.floor(Math.random() * 1000);
-        const city = cities[rand1000]
+    for(let city of cities){
+        // const rand1000 = Math.floor(Math.random() * 1000);
+        // const city = cities[rand1000]
         const location = {city: city.city, state: city.state, latitude: city.latitude, longitude: city.longitude};
         cityLocations.push(location);
         getRoutes(location);
     }
+    console.log(`Cities found: ${cityLocations.length}`);
 };
 
 function getRoutes(location) {
@@ -79,7 +80,9 @@ async function makeModel(newRoute){
 
 const seedDB = async () => {
     await Route.deleteMany({}); // Delete routes in db
+    console.log('DB cleared')
     getCityLocations(); // Start SEED with new routes!
+    console.log('Seeding DB...')
 }
 
 seedDB();

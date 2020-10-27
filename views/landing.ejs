@@ -1,19 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Crag</title>
-</head>
-<body>
-    <nav>
-        <a href="/routes">View All Routes</a>
-    </nav>
+<% layout('layouts/boilerplate') %>
+
     <h1>Let's Go Cragging!</h1>
     <ul>
-        <% for(let route of data){ %>
-            <li><%= route.title %> - <%= route.location.state %></li>
+        <% for(let route of routes){ %>
+            <li><%= route.title %> - <%= route.location.city %></li>
         <% } %>
     </ul>
-</body>
-</html>
+

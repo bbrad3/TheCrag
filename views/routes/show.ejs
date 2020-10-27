@@ -1,23 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Route Details</title>
-</head>
-<body>
-    <nav>
-        <a href="/">Home</a>
+<% layout('layouts/boilerplate') %>
+    <div class="my-3">
         <a href="/routes">All Routes</a>
-    </nav>
-    <h1><%= route.title %></h1>
-    <h2><%= route.crag %></h2>
-    <h3>Rating: <%= route.rating %></h3>
-    <nav>
-        <button><a href="/routes/<%=route._id%>/edit">Edit Route</a></button>
-    </nav>
-    <form action="/routes/<%=route._id%>?_method=DELETE" method="POST">
-        <button>Delete Route</button>
-    </form>
-</body>
-</html>
+    </div>
+    <div class="card">
+        <div class="row no-gutters">
+            <div class="col-md-6">
+                <img src="<%= route.img %>" class="card-img-top" alt="No route image">
+            </div>
+            <div class="col-md-6">
+                <div class="card-body">
+                    <h2 class="card-title"><%= route.title %></h2>
+                    <h4><%= route.crag %></h4>
+                    <h5>Rating: <%= route.rating %></h5>
+                    <h5>Type: <%= route.type %></h5>
+                    <p class="card-text">Lorem ipsum dolor <b><%=route.location.city%>, <%=route.location.state%></b> sit amet consectetur adipisicing elit. Labore temporibus in illum sint libero, veritatis iure? Omnis sequi, blanditiis pariatur quam tempore magnam et nesciunt officiis hic maiores nihil laudantium!</p>
+                    <a href="#" class="card-link btn btn-primary">Go to crag</a>
+                    <a href="/routes/<%=route._id%>/edit" class="card-link btn btn-primary">Edit Route</a>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer text-center">
+            <span>User stats</span>
+        </div>
+    </div>
+
