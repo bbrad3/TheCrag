@@ -8,11 +8,11 @@
     <% for(let route of routes){ %>
         <div class="card mb-2">
             <a href="routes/<%= route._id %>">
-                <h5 class="card-title"><%= route.title %> - <%= route.crag %></h5>
+                <h6 class="card-title"><%= route.title %> - <%= route.crag %></h6>
             </a>
             <div>
-                <span class="card-text">Rating: <%= route.rating %></span>
                 <span class="card-text text-muted"><%=route.location.city%>, <%=route.location.state%></span>
+                <span class="card-text">Rating: <%= route.rating %></span>
             </div>
         </div>
     <% } %>
