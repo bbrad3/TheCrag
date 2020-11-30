@@ -1,0 +1,43 @@
+<% layout('layouts/boilerplate') %>
+
+<div class="row">
+    <div class="col-md-6 mx-auto">
+        <h1>Edit <%=crag.title%></h1>
+        <form action="/crags/<%=crag._id%>?_method=PUT" method="POST" class="needs-validation" novalidate>
+            <div class="form-group mb-1">
+                <label class="form-label" for="title">Title</label>
+                <input class="form-control" type="text" id="title" name="crag[title]" value="<%=crag.title%>" required>
+            </div>
+            <div class="form-group mb-1">
+                <label class="form-label" for="city">City</label>
+                <input class="form-control mb-1" type="text" id="city" name="crag[city]" value="<%=crag.city%>">
+                
+            </div>
+            <div class="form-group mb-1">
+                <label class="form-label" for="state">State</label>
+                <select class="form-control" id="state" name="crag[state]" required>
+                    <% for(let state of states){ %>
+                        <option value="<%=state%>"><%=state%></option>
+                    <% } %>
+                </select>
+            </div>
+            
+            <div class="form-group row text-center">
+                <div class="col-10 offset-1">
+                    <button class="btn btn-success" type="submit">Update Crag</button>
+                </div>
+            </div>
+        </form>
+        <div class="row text-center mb-3">
+            <div class="col-10 offset-1">
+                <form action="/crags/<%=crag._id%>?_method=DELETE" method="POST">
+                    <button class="btn btn-danger">Delete Crag</button>
+                </form>
+                <p style="color: red;">CAUTION!!! Will delete all routes in the crag!</p>
+            </div>
+        </div>
+        <div class="row text-center">
+            <span class="col-10 offset-1"><a href="/crags">All Crags</a></span>
+        </div>
+    </div>
+</div>

@@ -3,14 +3,10 @@
     <div class="row">
         <div class="col-md-6 mx-auto">
             <h1>Create a New Route!</h1>
-            <form action="/routes" method="POST" class="needs-validation" novalidate>
+            <form action="/crags/<%=crag._id%>/routes" method="POST">
                 <div class="form-group mb-1">
                     <label class="form-label" for="title">Title</label>
                     <input class="form-control" type="text" id="title" name="route[title]" required>
-                </div>
-                <div class="form-group mb-1">
-                    <label class="form-label" for="crag">Crag</label>
-                    <input class="form-control" type="text" id="crag" name="route[crag]" required>
                 </div>
                 <div class="form-group mb-1">
                     <label for="rating">Rating</label>
@@ -22,13 +18,13 @@
                 </div>
                 <fieldset class="form-group mb-1">
                     <div class="row">
-                        <legend class="col-form-label col-sm-2 pt-0">Type</legend>
+                        <legend class="col-form-label col-sm-2 pt-0">Style</legend>
                         <div class="col-sm-10">
-                            <% for(let type of types){ %>
+                            <% for(let style of styles){ %>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" name="route[type]" id="<%=type.toLowerCase()%>" value="<%=type%>">
-                                    <label class="form-check-label" for="<%=type.toLowerCase()%>">
-                                        <%=type%>
+                                    <input class="form-check-input" type="checkbox" name="route[style]" id="<%=style.toLowerCase()%>" value="<%=style%>">
+                                    <label class="form-check-label" for="<%=style.toLowerCase()%>">
+                                        <%=style%>
                                     </label>
                                 </div>
                             <% } %>
@@ -42,7 +38,7 @@
                 </div>
             </form>
             <div class="row text-center">
-                <span class="col-10 offset-1"><a href="/routes">All Routes</a></span>
+                <span class="col-10 offset-1"><a href="/crags/<%=crag._id%>">Go Back</a></span>
             </div>
         </div>
     </div>

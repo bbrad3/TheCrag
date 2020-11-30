@@ -1,26 +1,26 @@
+
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const RouteSchema = new Schema({
+const CragSchema = new Schema({
     title: {
         type: String,
         required: true
     },
-    style: {
-        type: [String],
-        required: true
-    },
-    rating: {
+    city: {
         type: String,
         required: true
     },
-    crag: {
-        type: Schema.Types.ObjectId,
-        ref: 'Crag'
+    state: {
+        type: String,
+        required: true
     },
-    img: [String]
+    images: [String],
+    routes: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Route'
+    }]
 });
 
-const Route = mongoose.model('Route', RouteSchema);
-
-module.exports = Route;
+const Crag = mongoose.model('Crag', CragSchema);
+module.exports = Crag;

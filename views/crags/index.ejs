@@ -1,0 +1,17 @@
+<% layout('layouts/boilerplate') %>
+
+    <h1>All Crags</h1>
+    <nav>
+        <!-- <a href="/crags/:id/new">Add a New Crag</a> -->
+    </nav>
+
+    <% for(let crag of crags){ %>
+        <div class="card mb-2">
+            <a href="crags/<%= crag._id %>">
+                <h6 class="card-title"><%= crag.title %></h6>
+            </a>
+            <div>
+                <span class="card-text text-muted"><%=crag.city%>, <%=crag.state%></span>
+            </div>
+        </div>
+    <% } %>

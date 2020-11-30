@@ -2,8 +2,8 @@
 
     <h1>Let's Go Cragging!</h1>
     <ul>
-        <% for(let route of routes){ %>
-            <li><%= route.title %> - <%= route.location.city %></li>
+        <% for(let crag of crags){ %>
+            <li><%= crag.title %> - Routes: <%= crag.routes.length %></li>
         <% } %>
     </ul>
 

@@ -6,18 +6,20 @@ const mongoose = require('mongoose');
 const path = require('path');
 const methodOverride = require('method-override')
 const ejsMate = require('ejs-mate');
-const { routeSchema } = require('./utilities/validationSchemas');
 
 const Route = require('./models/route');
+const Crag = require('./models/crag');
 const AppError = require('./utilities/AppError');
 const catchAsync = require('./utilities/catchAsync');
-const { ratings, types } = require('./utilities/routeValues');
+const { ratings, styles, states } = require('./utilities/routeValues');
+const { routeSchema, cragSchema } = require('./utilities/validationSchemas');
 
 mongoose.connect('mongodb://localhost:27017/TheCrag', { 
     useNewUrlParser: true, 
     useUnifiedTopology: true,
     useCreateIndex: true
 })
+
 mongoose.connection.on('error', console.error.bind(console, 'connetion error:'));
 mongoose.connection.once('open', () => {
     console.log('Database connected')
@@ -29,11 +31,20 @@ app.set('views', path.join(__dirname, 'views'));
 
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
-// ********************************************
-// ROUTING
+// -------------------------------------------------------------
+// -------------------------ROUTING-----------------------------
 
 const validateRoute = (req, res, next) => {
-    const { error } = routeSchema.validate(req.body);
+    const { error } = routeSchema.validate(req.body.route);
+    if(error){
+        const msg = error.details.map(el => el.message).join(',');
+        throw new AppError(msg, 400);
+    } else{
+        next();
+    }
+}
+const validateCrag = (req, res, next) => {
+    const { error } = cragSchema.validate(req.body);
     if(error){
         const msg = error.details.map(el => el.message).join(',');
         throw new AppError(msg, 400);
@@ -43,48 +54,106 @@ const validateRoute = (req, res, next) => {
 }
 
 app.get('/', catchAsync(async (req, res) => {
-    const routes = await Route.find({});
+    const crags = await Crag.find({});
     // res.send(routes)
-    res.render('landing', { routes });
+    res.render('landing', { crags });
 
 }));
 
+// DELETE THIS ROUTE and index.ejs view
 app.get('/routes', catchAsync(async (req, res) => {
     const routes = await Route.find({});
     res.render('routes/index', { routes });
 }));
 
-app.get('/routes/new', (req, res) => {
-    res.render('routes/new', { types, ratings });
-});
+// -------------------------------------------------------------
+// ------------------------CRAGS ROUTES-------------------------
 
-app.post('/routes', validateRoute, catchAsync(async (req, res) => {
-    const newRoute = new Route(req.body.route);
-    await newRoute.save();
-    res.redirect(`/routes/${newRoute._id}`);
+app.get('/crags', catchAsync(async (req, res) => {
+    const crags = await Crag.find({});
+    res.render('crags/index', { crags });
 }));
 
-app.get('/routes/:id', catchAsync(async (req, res) => {
-    const route = await Route.findById(req.params.id)
+app.get('/crags/new', (req, res) => {
+    res.render('crags/new', { states });
+});
+
+app.post('/crags', validateCrag, catchAsync(async (req,res) => {
+    const newCrag = new Crag(req.body.crag);
+    await newCrag.save();
+    res.redirect(`/crags/${newCrag._id}`);
+}))
+
+app.get('/crags/:id', catchAsync(async (req, res) => {
+    const { id } = req.params;
+    const crag = await Crag.findById(id).populate('routes');
+    const { routes } = crag;
+    res.render('crags/show', { crag, routes });
+}));
+
+app.get('/crags/:id/edit', catchAsync(async (req, res) => {
+    const { id } = req.params;
+    const crag = await Crag.findById(id);
+    res.render('crags/edit', { crag, states }); // MAKE EDIT VIEW
+}));
+
+app.put('/crags/:id', validateRoute, catchAsync(async (req, res) => {
+    const { id } = req.params;
+    const crag = await Crag.findByIdAndUpdate(id, {...req.body.crag});
+    res.redirect(`/crags/${crag._id}`);
+}));
+
+app.delete('/crags/:id', catchAsync(async (req, res) => {
+    const { id } = req.params;
+    await Crag.findByIdAndDelete(id);
+    res.redirect('/crags');
+}));
+
+// -------------------------------------------------------------
+// -----------------------ROUTES ROUTES-------------------------
+
+app.get('/crags/:id/routes/:id', catchAsync(async (req, res) => {
+    const route = await Route.findById(req.params.id);
     res.render('routes/show', { route });
 }));
 
-app.get('/routes/:id/edit', catchAsync(async (req, res) => {
-    const route = await Route.findById(req.params.id)
-    res.render('routes/edit', { route, ratings, types });
+app.get('/crags/:id/routes/new', catchAsync(async (req, res) => {
+    const { id } = req.params;
+    const crag = await Crag.findById(id);
+    res.render('routes/new', { styles, ratings, crag });
 }));
 
-app.put('/routes/:id', validateRoute, catchAsync(async (req, res) => {
+app.post('/crags/:id/routes', validateRoute, catchAsync(async (req, res) => {
+    const { id } = req.params;
+    const crag = await Crag.findById(id)
+    const newRoute = new Route(req.body.route);
+    console.log(crag);
+    crag.routes.push(newRoute);
+    newRoute.crag = crag;
+    await newRoute.save();
+    await crag.save();
+    res.redirect(`/crags/${id}`);
+}));
+
+app.get('/crags/:id/routes/:id/edit', catchAsync(async(req, res) => {
+    const { id } = req.params;
+    const route = await Route.findById(id)
+    res.render('routes/edit', { route, ratings, styles });
+}));
+
+app.put('/crags/:id/routes/:id', validateRoute, catchAsync(async (req, res) => {
     const { id } = req.params;
     const route = await Route.findByIdAndUpdate(id, {...req.body.route});
-    res.redirect(`/routes/${route._id}`);
+    res.redirect(`/crags/${route.crag}`);
 }));
 
-app.delete('/routes/:id', catchAsync(async (req, res) => {
+app.delete('/crags/:id/routes/:id', catchAsync(async (req, res) => {
     const { id } = req.params;
-    await Route.findByIdAndDelete(id);
-    res.redirect('/routes');
+    const route = await Route.findByIdAndDelete(id);
+    res.redirect(`/crags/${route.crag}`);
 }));
+
+// -------------------------------------------------------------
 
 app.all('*', (req, res, next) => {
     next(new AppError('PAGE NOT FOUND', 404))
@@ -96,7 +165,7 @@ app.use((err, req, res, next) => {
     res.status(statusCode).render('error', { err });
 });
 
-// ********************************************
+// -------------------------------------------------------------
 app.listen(3000, () => {
     console.log("APP IS LISTENING ON PORT 3000!")
 })

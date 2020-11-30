@@ -1,0 +1,22 @@
+<% layout('layouts/boilerplate') %>
+
+<h1><%=crag.title%></h1>
+<h2><%=crag.city%>, <%=crag.state%></h2>
+
+<a href="/crags/<%=crag._id%>/edit">Edit Crag</a>
+
+<div class="card">
+    <div class="card-header">
+        <h4 class="card-title"><%=crag.title%> Routes</h4>
+        <a href="/crags/<%=crag._id%>/routes/new">Add New Route</a>
+    </div>
+    <div class="cragRoutes card-body">
+        <% for(let route of routes) { %>
+            <h5><a href="/crags/<%=crag._id%>/routes/<%=route._id%>"><%=route.title%> - <%=route.style%> - <%=route.rating%></a></h5>
+            <div>
+                <a href="/crags/<%=crag._id%>/routes/<%=route._id%>/edit">Edit Route</a>
+            </div>
+            <hr>
+        <% } %>
+    </div>
+</div>
