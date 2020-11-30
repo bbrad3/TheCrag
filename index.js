@@ -55,7 +55,6 @@ const validateCrag = (req, res, next) => {
 
 app.get('/', catchAsync(async (req, res) => {
     const crags = await Crag.find({});
-    // res.send(routes)
     res.render('landing', { crags });
 
 }));
@@ -114,7 +113,8 @@ app.delete('/crags/:id', catchAsync(async (req, res) => {
 
 app.get('/crags/:id/routes/:id', catchAsync(async (req, res) => {
     const route = await Route.findById(req.params.id);
-    res.render('routes/show', { route });
+    const crag = await Crag.findById(route.crag);
+    res.render('routes/show', { route, crag });
 }));
 
 app.get('/crags/:id/routes/new', catchAsync(async (req, res) => {
@@ -144,7 +144,7 @@ app.get('/crags/:id/routes/:id/edit', catchAsync(async(req, res) => {
 app.put('/crags/:id/routes/:id', validateRoute, catchAsync(async (req, res) => {
     const { id } = req.params;
     const route = await Route.findByIdAndUpdate(id, {...req.body.route});
-    res.redirect(`/crags/${route.crag}`);
+    res.redirect(`/crags/${route.crag}/routes/${id}`);
 }));
 
 app.delete('/crags/:id/routes/:id', catchAsync(async (req, res) => {

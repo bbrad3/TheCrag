@@ -13,9 +13,6 @@
     <div class="cragRoutes card-body">
         <% for(let route of routes) { %>
             <h5><a href="/crags/<%=crag._id%>/routes/<%=route._id%>"><%=route.title%> - <%=route.style%> - <%=route.rating%></a></h5>
-            <div>
-                <a href="/crags/<%=crag._id%>/routes/<%=route._id%>/edit">Edit Route</a>
-            </div>
             <hr>
         <% } %>
     </div>

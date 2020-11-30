@@ -1,9 +1,18 @@
 <% layout('layouts/boilerplate') %>
 
     <h1>Let's Go Cragging!</h1>
-    <ul>
-        <% for(let crag of crags){ %>
-            <li><%= crag.title %> - Routes: <%= crag.routes.length %></li>
-        <% } %>
-    </ul>
+    <% for(let crag of crags){ %>
+        <div class="card mb-2">
+            <div>
+                <h5 class="card-title">
+                    <a href="crags/<%= crag._id %>"><%= crag.title %></a>
+                </h5>
+                <p class="card-text">Routes: <%= crag.routes.length %></p>
+                
+            </div>
+            <div>
+                <p class="card-text text-muted"><%= crag.city %>, <%= crag.state %></p>
+            </div>
+        </div>
+    <% } %>
 
